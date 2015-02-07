@@ -33,4 +33,28 @@ class NewsController extends Controller
 
     }
 
+    /**
+     * create news
+     */
+    public function createAction()
+    {
+
+    }
+
+    /**
+     * remove news
+     */
+    public function removeAction()
+    {
+
+    }
+
+    /**
+     * move news to archive
+     */
+    public function moveAction()
+    {
+
+    }
+
 }

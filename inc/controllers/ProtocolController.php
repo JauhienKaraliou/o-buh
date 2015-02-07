@@ -16,14 +16,32 @@ class ProtocolController extends Controller{
 
     }
 
+    /**
+     * shows results of a leg
+     * @param $resID
+     */
     public function resultsAction($resID)
     {
 
     }
 
+    /**
+     * show start protocol of a leg
+     * @param $startlistID
+     */
     public function startlistAction($startlistID)
     {
 
     }
+
+    /**
+     * generate CSV protocols
+     */
+    public function generateCSVAction()
+    {
+
+    }
+
+
 
 }
