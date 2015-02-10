@@ -37,7 +37,8 @@
             <label class="col-md-4 control-label" for="club">Club...</label>
             <div class="col-md-4">
                 <select id="club" name="club" class="form-control">
-                    <option value="BNTU">club</option>
+                    <?php foreach($clubs as $club){ ?>
+                    <option value="<?=$this->club['id']?>"><?=$this->club['club_name']?></option>
                 </select>
             </div>
         </div>
