@@ -39,5 +39,11 @@ class Model {
         return "http://$host$uri/$address";
     }
 
+    public static function checkPage($page)
+    {
+        $page = (is_int($page))?$page:(int) $page;
+        $page = ($page > 0 and $page <= PHP_INT_MAX)?$page:1;
+        return $page;
+    }
 
 }
