@@ -37,8 +37,9 @@
             <label class="col-md-4 control-label" for="club">Club...</label>
             <div class="col-md-4">
                 <select id="club" name="club" class="form-control">
-                    <?php foreach($clubs as $club){ ?>
-                    <option value="<?=$this->club['id']?>"><?=$this->club['club_name']?></option>
+                    <option value="">new</option>
+                    <?php foreach($this->clubs as $club){ ?>
+                    <option value="<?=$club['id']?>"><?=$club['club_name']?></option>
                 </select>
             </div>
         </div>
