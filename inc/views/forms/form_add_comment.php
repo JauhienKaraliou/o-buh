@@ -1,32 +1,38 @@
-<form class="form-horizontal" method="post">
+<form class="form-horizontal" method="post" action="<?= View::generateLink(array('guestbook', 'saveMessage')) ?>">
     <fieldset>
 
         <!-- Form Name -->
-        <legend>Enter your comment</legend>
+        <legend><?= View::lang('Enter your comment') ?></legend>
 
         <!-- Text input-->
         <div class="form-group">
             <label class="col-md-4 control-label"></label>
+
             <div class="col-md-5">
                 <textarea class="form-control" id="comment" name="messagetext"
-                          placeholder="comment..." required></textarea>
+                          placeholder="<?= View::lang('Comment...') ?>" required></textarea>
             </div>
         </div>
 
         <!-- name and e-mail input-->
         <div class="form-group">
             <label class="col-md-4 control-label"></label>
+
             <div class="col-md-5">
-                <input class="col-md-5" type="text" name="author" id="author" placeholder="your name">
-                <input class="col-md-7" type="email" name="email" id="email" placeholder="your email (won't be seen)">
+                <input class="col-md-5" type="text" name="author_name" id="author" placeholder="<?= View::lang('Your
+                name') ?>">
+                <input class="col-md-7" type="email" name="author_email" id="email"
+                       placeholder="<?= View::lang('your email (won\'t be seen)') ?>">
             </div>
         </div>
 
         <!-- CAPTCHA input-->
         <div class="form-group">
-            <label class="col-md-4 control-label">2+2</label>
+            <label class="col-md-4 control-label"><?= $captchaQuest ?></label>
+
             <div class="col-md-5">
-                <input class="col-md-5" type="text" name="author" id="author" placeholder="enter answer">
+                <input class="col-md-5" type="text" name="captha" id="author"
+                       placeholder="<?= View::lang('Insert answer') ?>">
             </div>
         </div>
 
@@ -34,8 +40,10 @@
         <!-- Button -->
         <div class="form-group">
             <label class="col-md-4 control-label"></label>
+
             <div class="col-md-4">
-                <input type="submit" name="action" value="Post the comment" class="btn-md btn-inverse col-md-4">
+                <input type="submit" name="action" value="<?= View::lang('Post the comment') ?>"
+                       class="btn-md btn-inverse col-md-4">
             </div>
         </div>
 

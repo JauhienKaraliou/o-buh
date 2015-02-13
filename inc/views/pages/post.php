@@ -1,12 +1,5 @@
 <?php require 'inc/views/divs/header.php' ?>
 
+    <h1><?= View::lang('Post') ?></h1>
 
-    <h1>Post</h1>
-
-    <ul>
-
-<li></li>
-    </ul>
-
-<?php
-require 'inc/views/divs/footer.php'?>
+<?php require 'inc/views/divs/footer.php' ?>

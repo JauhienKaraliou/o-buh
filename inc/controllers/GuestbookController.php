@@ -1,7 +1,8 @@
 <?php
 
 
-class GuestbookController extends Controller {
+class GuestbookController extends Controller
+{
 
     public function __construct()
     {
@@ -10,12 +11,18 @@ class GuestbookController extends Controller {
 
     public function defaultAction()
     {
-        require 'inc/models/GuestbookModel.php';
-        $this -> view -> comments = GuestbookModel::getMessages();
-        $this -> view -> pagesNum = GuestbookModel::countMessages();
-        $this -> view -> render('guestbook');
+        $this->view->comments = GuestbookModel::getMessages();
+        $this->view->pagesNum = GuestbookModel::countMessages();
+        $this->view->render('guestbook');
         $_SESSION['resultMsg'] = '';
+    }
 
+    public function saveMessageAction()
+    {
+        if (isset($_POST['action'])) {
+            GuestbookModel::saveMessage();
+        }
+        self::defaultAction();
     }
 
 }

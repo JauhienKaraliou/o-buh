@@ -10,11 +10,11 @@ class NewsController extends Controller
 
     /**
      * return the list of last n news
+     * @param int $pageNum
      */
     public function defaultAction($pageNum = 1)
     {
-        require_once 'inc/models/NewsModel.php';
-        $this -> view -> newsList = NewsModel::getNewsList((int)$pageNum);
+        $this -> view -> newsList = NewsModel::getNewsListPrepared((int)$pageNum);
         $this -> view -> render('news');
     }
 
@@ -43,23 +43,41 @@ class NewsController extends Controller
     }
 
     /**
-     * show the full variant of a definite news
+     * show the full variant of definite post
+     * @param $postID
+     */
+    public function readAction($postID)
+    {
+
+    }
+
+    /**
+     * @todo do editing news
+     *
+     * provide possibility to edit posts
      * @param $newsID
      */
-    public function readAction($newsID)
+    public function editAction($newsID)
     {
 
     }
 
 
-
-
     /**
-     * create news
+     * moves to form for creating news
      */
     public function createAction()
     {
+        $this->view->render('createNews');
+    }
 
+    /**
+     * publish news
+     */
+    public function publishAction()
+    {
+        NewsModel::savePost();
+        parent::redirect(array('news'));
     }
 
     /**

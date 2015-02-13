@@ -9,8 +9,8 @@
         tinymce.init({
             selector: "textarea#elm1",
             theme: "modern",
-            width: 300,
-            height: 300,
+            width: 600,
+            height: 200,
             plugins: [
                 "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
@@ -34,7 +34,7 @@
 
 
     <meta charset="utf-8">
-    <title>MVC</title>
+    <title><?=View::lang('Buh')?></title>
 </head>
 <body>
 <div class="container-fluid">
@@ -43,33 +43,31 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="sr-only"><?=View::lang('Toggle navigation')?></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">OK Buh</a>
+            <a class="navbar-brand" href="#"><?=View::lang('OK Buh')?></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="<?=$newsLink?>">News<span class="sr-only">(current)</span></a></li>
-                <li><a href="<?=$guestbookLink?>">Guestbook</a></li>
+                <li class="active"><a href="<?=$newsLink?>"><?=View::lang('News')?><span class="sr-only">(current)
+                        </span></a></li>
+                <li><a href="<?=$guestbookLink?>"><?=View::lang('Guestbook')?></a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        Protocols<span class="caret"></span></a>
+                        <?=View::lang('Protocols')?><span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Import</a></li>
-                        <li><a href="#">Export</a></li>
-                        <li><a href="#">Users</a></li>
+                        <li><a href="<?=$startProtocolLink?>"><?=View::lang('Start')?></a></li>
+                        <li><a href="<?=$resultsProtocolLink?>"><?=View::lang('Results')?></a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li><a href="<?=$participansListLink?>"><?=View::lang('Registered runners')?></a></li>
                     </ul>
                 </li>
-                <li><a href="<?=$registerLink?>">Registration</a></li>
+                <li><a href="<?=$registerLink?>"><?=View::lang('Registration')?></a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

@@ -2,10 +2,7 @@
 
 
 class Model {
-    public function __construct()
-    {
 
-    }
 
     public  static function sendMail($to, $subject, $body)
     {
@@ -24,19 +21,7 @@ class Model {
         $mail->Subject      = $subject;
         $mail->MsgHTML( $body );
         $mail->AddAddress($to);
-        if(!$mail->send()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public static function generateLink(array $params)
-    {
-        $address = implode('/',$params);
-        $host  = $_SERVER['HTTP_HOST'];
-        $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-        return "http://$host$uri/$address";
+        return ($mail->send());
     }
 
     public static function checkPage($page)

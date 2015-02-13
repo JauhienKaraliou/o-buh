@@ -9,17 +9,22 @@ class RegistrationController extends Controller
         parent::__construct();
     }
 
-    public function defaultAction($contID=1)
+    public function defaultAction($contID = 1)
     {
-        require_once 'inc/models/RegistrationModel.php';
         $this->view->clubs = RegistrationModel::getClubs();
         $this->view->etapsNum = RegistrationModel::getEtapNum($contID);
+        $this->view->classes = RegistrationModel::getClasses($contID);
+        $this->view->quals = RegistrationModel::getQualifications();
+        $this->view->partEtaps = RegistrationModel::getEtaps($contID);
         $this->view->render('registration');
     }
 
     public function submitAction()
     {
-
+        if(isset($_POST['action'])) {
+        RegistrationModel::registerParticipant();
+        }
+        self::defaultAction();
     }
 
     public function listAction()
