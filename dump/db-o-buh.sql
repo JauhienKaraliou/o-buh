@@ -1,136 +1,228 @@
--- phpMyAdmin SQL Dump
--- version 4.0.10deb1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Feb 07, 2015 at 10:25 AM
--- Server version: 5.6.22
--- PHP Version: 5.5.9-1ubuntu4.5
+/*
+SQLyog Ultimate v11.52 (32 bit)
+MySQL - 5.6.22 : Database - db-buh
+*********************************************************************
+*/
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- Database: `db-buh`
---
-CREATE DATABASE IF NOT EXISTS `db-buh` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`db-buh` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
 USE `db-buh`;
 
--- --------------------------------------------------------
+/*Table structure for table `buh_class` */
 
---
--- Table structure for table `buh-contests`
---
+DROP TABLE IF EXISTS `buh_class`;
 
-DROP TABLE IF EXISTS `buh-contests`;
-CREATE TABLE IF NOT EXISTS `buh-contests` (
+CREATE TABLE `buh_class` (
+  `id_class` int(11) NOT NULL AUTO_INCREMENT,
+  `class_name` enum('M21','W21') NOT NULL,
+  PRIMARY KEY (`id_class`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `buh_class` */
+
+/*Table structure for table `buh_classes_on_contest` */
+
+DROP TABLE IF EXISTS `buh_classes_on_contest`;
+
+CREATE TABLE `buh_classes_on_contest` (
+  `id_class_to_cont` int(11) NOT NULL AUTO_INCREMENT,
+  `id_contest` int(11) NOT NULL,
+  `id_class` int(11) NOT NULL,
+  PRIMARY KEY (`id_class_to_cont`),
+  KEY `id_contest` (`id_contest`),
+  KEY `id_class` (`id_class`),
+  CONSTRAINT `buh_classes_on_contest_ibfk_1` FOREIGN KEY (`id_contest`) REFERENCES `buh_contests` (`id_contest`),
+  CONSTRAINT `buh_classes_on_contest_ibfk_2` FOREIGN KEY (`id_class`) REFERENCES `buh_class` (`id_class`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `buh_classes_on_contest` */
+
+/*Table structure for table `buh_clubs` */
+
+DROP TABLE IF EXISTS `buh_clubs`;
+
+CREATE TABLE `buh_clubs` (
+  `id_club` int(11) NOT NULL AUTO_INCREMENT,
+  `club_name` varchar(45) NOT NULL,
+  `club_hometown` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_club`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `buh_clubs` */
+
+/*Table structure for table `buh_comments` */
+
+DROP TABLE IF EXISTS `buh_comments`;
+
+CREATE TABLE `buh_comments` (
+  `id_comment` int(11) NOT NULL AUTO_INCREMENT,
+  `author_name` varchar(45) NOT NULL,
+  `author_email` varchar(45) NOT NULL,
+  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `text` text NOT NULL,
+  `is_deleted` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0-visible, 1-invisible',
+  PRIMARY KEY (`id_comment`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Data for the table `buh_comments` */
+
+insert  into `buh_comments`(`id_comment`,`author_name`,`author_email`,`date_time`,`text`,`is_deleted`) values (1,'robot','a@B.com','2015-02-11 10:11:01','dummy comment','0'),(2,'robot','a@B.com','2015-02-11 10:11:25','dummy comment n2','0'),(3,'robot 2','a@B.com','2015-02-13 12:50:20','dummy 3','0');
+
+/*Table structure for table `buh_contests` */
+
+DROP TABLE IF EXISTS `buh_contests`;
+
+CREATE TABLE `buh_contests` (
   `id_contest` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `date_begin` varchar(45) NOT NULL,
-  `date_end` varchar(45) NOT NULL,
+  `date_begin` date NOT NULL,
+  `date_end` date NOT NULL,
+  `registration_open` enum('1','0') NOT NULL,
   PRIMARY KEY (`id_contest`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+/*Data for the table `buh_contests` */
 
---
--- Table structure for table `buh-participant`
---
-
-DROP TABLE IF EXISTS `buh-participant`;
-CREATE TABLE IF NOT EXISTS `buh-participant` (
-  `id_part` int(11) NOT NULL AUTO_INCREMENT,
-  `id_etap` int(11) NOT NULL,
-  `id_runner` int(10) NOT NULL,
-  `club` varchar(45) DEFAULT NULL,
-  `class` varchar(45) NOT NULL,
-  `qualification` varchar(45) NOT NULL,
-  `start_time` varchar(45) DEFAULT NULL,
-  `finish_time` varchar(45) DEFAULT NULL,
-  `qual_accompl` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_part`),
-  KEY `id_etap` (`id_etap`),
-  KEY `part_to_runners` (`id_runner`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `buh-runners`
---
-
-DROP TABLE IF EXISTS `buh-runners`;
-CREATE TABLE IF NOT EXISTS `buh-runners` (
-  `id_runner` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `surname` varchar(45) NOT NULL,
-  `birth_year` year(4) NOT NULL,
-  `comment` text,
-  `gender` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_runner`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `buh_etap`
---
+/*Table structure for table `buh_etap` */
 
 DROP TABLE IF EXISTS `buh_etap`;
-CREATE TABLE IF NOT EXISTS `buh_etap` (
+
+CREATE TABLE `buh_etap` (
   `id_etap` int(10) NOT NULL AUTO_INCREMENT,
-  `id_contest` int(11) DEFAULT NULL,
-  `date` varchar(45) DEFAULT NULL,
+  `id_contest` int(11) NOT NULL,
+  `date` date NOT NULL,
   PRIMARY KEY (`id_etap`),
-  KEY `etap_to_contest` (`id_contest`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  KEY `etap_to_contest` (`id_contest`),
+  CONSTRAINT `etap_to_contest` FOREIGN KEY (`id_contest`) REFERENCES `buh_contests` (`id_contest`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+/*Data for the table `buh_etap` */
 
---
--- Table structure for table `buh_label`
---
+/*Table structure for table `buh_label` */
 
 DROP TABLE IF EXISTS `buh_label`;
-CREATE TABLE IF NOT EXISTS `buh_label` (
+
+CREATE TABLE `buh_label` (
   `id_label` int(11) NOT NULL AUTO_INCREMENT,
   `label_name` varchar(45) DEFAULT NULL,
   `en` varchar(90) DEFAULT NULL,
   `ru` varchar(90) DEFAULT NULL,
   `be` varchar(90) DEFAULT NULL,
   PRIMARY KEY (`id_label`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+/*Data for the table `buh_label` */
 
---
--- Table structure for table `buh_news`
---
+/*Table structure for table `buh_participant` */
 
-DROP TABLE IF EXISTS `buh_news`;
-CREATE TABLE IF NOT EXISTS `buh_news` (
+DROP TABLE IF EXISTS `buh_participant`;
+
+CREATE TABLE `buh_participant` (
+  `id_part` int(11) NOT NULL AUTO_INCREMENT,
+  `id_etap` int(11) NOT NULL,
+  `id_runner` int(10) NOT NULL,
+  `id_club` int(11) NOT NULL,
+  `id_class` int(11) NOT NULL,
+  `id_qual` int(11) NOT NULL,
+  `start_time` int(12) DEFAULT NULL,
+  `finish_time` int(12) DEFAULT NULL,
+  `id_qual_accompl` int(11) DEFAULT NULL,
+  `si_card_num` int(11) DEFAULT NULL,
+  `reg_email` varchar(45) NOT NULL,
+  PRIMARY KEY (`id_part`),
+  KEY `id_etap` (`id_etap`),
+  KEY `part_to_runners` (`id_runner`),
+  KEY `part_to_club` (`id_club`),
+  KEY `part_to_class` (`id_class`),
+  KEY `part_to_qual` (`id_qual`),
+  KEY `qual_acc_to_qual` (`id_qual_accompl`),
+  CONSTRAINT `buh_participant_ibfk_1` FOREIGN KEY (`id_etap`) REFERENCES `buh_etap` (`id_etap`),
+  CONSTRAINT `part_to_class` FOREIGN KEY (`id_class`) REFERENCES `buh_class` (`id_class`),
+  CONSTRAINT `part_to_club` FOREIGN KEY (`id_club`) REFERENCES `buh_clubs` (`id_club`),
+  CONSTRAINT `part_to_qual` FOREIGN KEY (`id_qual`) REFERENCES `buh_qualification` (`id_qual`),
+  CONSTRAINT `part_to_runners` FOREIGN KEY (`id_runner`) REFERENCES `buh_runners` (`id_runner`),
+  CONSTRAINT `qual_acc_to_qual` FOREIGN KEY (`id_qual_accompl`) REFERENCES `buh_qualification` (`id_qual`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `buh_participant` */
+
+/*Table structure for table `buh_posts` */
+
+DROP TABLE IF EXISTS `buh_posts`;
+
+CREATE TABLE `buh_posts` (
   `id_post` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
-  `date` varchar(45) NOT NULL,
+  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `content` text NOT NULL,
+  `prev_content` text NOT NULL,
+  `title` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_post`),
-  KEY `id_user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  KEY `id_user` (`id_user`),
+  CONSTRAINT `buh_posts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `buh_users` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+/*Data for the table `buh_posts` */
 
---
--- Table structure for table `buh_users`
---
+insert  into `buh_posts`(`id_post`,`id_user`,`date_time`,`content`,`prev_content`,`title`) values (1,1,'2015-02-11 08:39:47','this is first dummy post','this is first dummy post',NULL),(2,1,'2015-02-11 14:21:56','<p>Правила преобразования ссылок:</p>\r\n<p>Если в подкаталогах в .htaccess нет ни одной директивы модуля mod_rewrite, то все правила преобразования наследуются из родительского каталога.</p>\r\n<p>При наличии в файле .htaccess каких либо директив модуля mod_rewrite не наследуется ничего, а состояние по умолчанию выставляется таким же, как в главном конфигурационном файле веб-сервера (по умолчанию \"off\"). Поэтому, если нужны правила преобразования для конкретного каталога, то нужно еще раз вставить директиву \"RewriteEngine on\" в .htaccess для конкретного каталога.</p>\r\n<p>При наследовании правил из верхних каталогов и добавлении к ним новых свойственных только данному каталогу - необходимо выставить в начале следущее: \"RewriteEngine on\" и <a href=\"http://htaccess.net.ru/doc/mod_rewrite/RewriteOptions.php\">\"RewriteOptions inherit\"</a> - последняя директива сообщает серверу о продолжении.</p>\r\n<h2>&nbsp;</h2>','all about contest','dummy post title'),(3,1,'2015-02-11 14:22:14','<p>Правила преобразования ссылок:</p>\r\n<p>Если в подкаталогах в .htaccess нет ни одной директивы модуля mod_rewrite, то все правила преобразования наследуются из родительского каталога.</p>\r\n<p>При наличии в файле .htaccess каких либо директив модуля mod_rewrite не наследуется ничего, а состояние по умолчанию выставляется таким же, как в главном конфигурационном файле веб-сервера (по умолчанию \"off\"). Поэтому, если нужны правила преобразования для конкретного каталога, то нужно еще раз вставить директиву \"RewriteEngine on\" в .htaccess для конкретного каталога.</p>\r\n<p>При наследовании правил из верхних каталогов и добавлении к ним новых свойственных только данному каталогу - необходимо выставить в начале следущее: \"RewriteEngine on\" и <a href=\"http://htaccess.net.ru/doc/mod_rewrite/RewriteOptions.php\">\"RewriteOptions inherit\"</a> - последняя директива сообщает серверу о продолжении.</p>\r\n<h2>&nbsp;</h2>','all about contest','dummy post title');
+
+/*Table structure for table `buh_qualification` */
+
+DROP TABLE IF EXISTS `buh_qualification`;
+
+CREATE TABLE `buh_qualification` (
+  `id_qual` int(11) NOT NULL AUTO_INCREMENT,
+  `qual_name` enum('MS','KMS') NOT NULL,
+  PRIMARY KEY (`id_qual`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `buh_qualification` */
+
+insert  into `buh_qualification`(`id_qual`,`qual_name`) values (1,'MS'),(2,'KMS');
+
+/*Table structure for table `buh_runners` */
+
+DROP TABLE IF EXISTS `buh_runners`;
+
+CREATE TABLE `buh_runners` (
+  `id_runner` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `surname` varchar(45) NOT NULL,
+  `birth_year` year(4) NOT NULL,
+  `comment` text,
+  `gender` enum('male','female') NOT NULL,
+  PRIMARY KEY (`id_runner`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `buh_runners` */
+
+/*Table structure for table `buh_user_status` */
+
+DROP TABLE IF EXISTS `buh_user_status`;
+
+CREATE TABLE `buh_user_status` (
+  `user_status_id` int(11) NOT NULL AUTO_INCREMENT,
+  `status_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`user_status_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `buh_user_status` */
+
+insert  into `buh_user_status`(`user_status_id`,`status_name`) values (1,'dummy');
+
+/*Table structure for table `buh_users` */
 
 DROP TABLE IF EXISTS `buh_users`;
-CREATE TABLE IF NOT EXISTS `buh_users` (
+
+CREATE TABLE `buh_users` (
   `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
   `user_status_id` int(11) NOT NULL,
@@ -138,51 +230,15 @@ CREATE TABLE IF NOT EXISTS `buh_users` (
   `sha1_password` varchar(45) NOT NULL,
   `user_key` varchar(45) NOT NULL,
   PRIMARY KEY (`id_user`),
-  KEY `user_status_id` (`user_status_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  KEY `user_status_id` (`user_status_id`),
+  CONSTRAINT `buh_users_ibfk_1` FOREIGN KEY (`user_status_id`) REFERENCES `buh_user_status` (`user_status_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+/*Data for the table `buh_users` */
 
---
--- Table structure for table `buh_user_status`
---
+insert  into `buh_users`(`id_user`,`username`,`user_status_id`,`email`,`sha1_password`,`user_key`) values (1,'dummy',1,'dummy@dooo.com','123456','123456');
 
-DROP TABLE IF EXISTS `buh_user_status`;
-CREATE TABLE IF NOT EXISTS `buh_user_status` (
-  `user_status_id` int(11) NOT NULL AUTO_INCREMENT,
-  `status_name` varchar(45) NOT NULL,
-  PRIMARY KEY (`user_status_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `buh-participant`
---
-ALTER TABLE `buh-participant`
-  ADD CONSTRAINT `buh-participant_ibfk_1` FOREIGN KEY (`id_etap`) REFERENCES `buh_etap` (`id_etap`),
-  ADD CONSTRAINT `part_to_runners` FOREIGN KEY (`id_runner`) REFERENCES `buh-runners` (`id_runner`);
-
---
--- Constraints for table `buh_etap`
---
-ALTER TABLE `buh_etap`
-  ADD CONSTRAINT `etap_to_contest` FOREIGN KEY (`id_contest`) REFERENCES `buh-contests` (`id_contest`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `buh_news`
---
-ALTER TABLE `buh_news`
-  ADD CONSTRAINT `buh_news_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `buh_users` (`id_user`);
-
---
--- Constraints for table `buh_users`
---
-ALTER TABLE `buh_users`
-  ADD CONSTRAINT `buh_users_ibfk_1` FOREIGN KEY (`user_status_id`) REFERENCES `buh_user_status` (`user_status_id`);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
