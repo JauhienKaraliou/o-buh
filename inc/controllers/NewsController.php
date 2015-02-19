@@ -43,6 +43,7 @@ class NewsController extends Controller
     }
 
     /**
+     * @todo fulfil this method
      * show the full variant of definite post
      * @param $postID
      */
@@ -87,13 +88,4 @@ class NewsController extends Controller
     {
 
     }
-
-    /**
-     * move news to archive
-     */
-    public function moveAction()
-    {
-
-    }
-
 }

@@ -62,7 +62,6 @@ class RegistrationModel extends Model
         return $sth->fetchAll();
     }
 
-
     /**
      * @todo add result messages through session and autofilling correct fields
      * @return bool
@@ -150,4 +149,60 @@ class RegistrationModel extends Model
         $sth->execute($runner);
         return $sth->fetch();
     }
+
+    /**
+     * @param array $params
+     * @return string
+     */
+    public static function setNewCompetition(array $params)
+    {
+        $sth = DB::getInstance()->prepare('INSERT INTO `buh_contests`(`name`,`date_begin`,`date_end`,`registration_open`)
+VALUES (:name, :date_begin,:date_end,:registration_open)');
+        $sth->execute(array('name' => $params['name'],
+            'date_begin' => $params['date_begin'],
+            'date_end' => $params['date_finish'],
+            'registration_open' => '1'));
+        return DB::getInstance()->lastInsertId();
+    }
+
+    /**
+     * @param $compID
+     * @return bool
+     */
+    public static function setEtaps($compID)
+    {
+        $sth = DB::getInstance()->prepare('SELECT `date_begin`,`date_end` FROM `buh_contests`
+WHERE `id_contest`=:id_contest');
+        $std = DB::getInstance()->prepare('INSERT INTO `buh_etap`(`id_contest`,`date`) VALUES (:id_contest,:date)');
+        $sth->execute(array('id_contest' => $compID));
+        $date = $sth->fetch();
+        $dateBegin = date_create($date['date_begin']);
+        $dateFinish = date_create($date['date_end']);
+        $sth->errorInfo();
+        for ($i = $dateBegin; $i <= $dateFinish; date_add($i, date_interval_create_from_date_string('1 day'))) {
+            $dateToIns=date_format($i,'Y-m-d');
+            $res = $std->execute(array('id_contest' => $compID, 'date' => $dateToIns));
+            if (!$res) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static function getFutureCompetitionsList()
+    {
+        $sth = DB::getInstance()->prepare('SELECT `id_contest`,`name`,`date_begin`,`date_end` FROM `buh_contests`
+WHERE `registration_open`=:registration_open  ORDER BY `date_begin` DESC');
+        $sth->execute(array('registration_open'=> 1 ));
+        return $sth->fetchAll();
+    }
+
+    public static function getCompetition($param)
+    {
+        $sth = DB::getInstance()->prepare('SELECT `id_contest`,`name`,`date_begin`,`date_end` FROM `buh_contests`
+WHERE `id_contest`=:id_contest');
+        $sth->execute(array('id_contest'=> $param));
+        return $sth->fetch();
+    }
+
 }

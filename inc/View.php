@@ -12,12 +12,7 @@ class View
      */
     public function render($tplName)
     {
-        $stylesheetLink = self::generateLink(array('css', 'bootstrap.css'));
-        $jsLink = self::generateLink(array('js', 'bootstrap.js'));
-        $tinymceLink = self::generateLink(array('js', 'tinymce', 'tinymce.min.js'));
-        $newsLink = self::generateLink(array('news'));
-        $guestbookLink = self::generateLink(array('guestbook'));
-        $registerLink = self::generateLink(array('registration'));
+        $userStatus = SessionModel::getCurrentUserStatus();
         $captchaQuest = '2+2';
         $area = '';
         $pageCur = 1;
@@ -42,6 +37,5 @@ class View
         $address = implode('/', $params);
         return BASE_URL . "/$address";
     }
-
 
 }

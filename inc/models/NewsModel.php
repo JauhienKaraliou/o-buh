@@ -52,5 +52,4 @@ VALUES (:id_user, :content, :prev_content, :title)');
 
     }
 
-
 }

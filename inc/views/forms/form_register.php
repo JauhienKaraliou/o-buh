@@ -3,7 +3,20 @@
     <fieldset>
 
         <!-- Form Name -->
-        <legend><?= View::lang('Register for this competitions') ?></legend>
+        <legend><?= View::lang('Registering for competitions:') ?>
+            <?= $this->competition['name']?>
+            <?= $this->competition['date_begin'] ?>  -
+            <?= $this->competition['date_end'] ?>
+        </legend>
+        <!-- Competition ID -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="competition_id"><?= View::lang('Competition identifier') ?></label>
+
+            <div class="col-md-2">
+                <input id="competition_id" name="competition_id" value="<?= $this->competition['id_contest'] ?>"
+                       class="form-control input-md" required type="hidden" >
+            </div>
+        </div>
 
         <!-- Name input-->
         <div class="form-group">
@@ -27,7 +40,7 @@
 
         <!-- Select Gender -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="gender0"><?= View::lang('Gender') ?></label>
+            <label class="col-md-4 control-label" for="gender"><?= View::lang('Gender') ?></label>
 
             <div class="col-md-4">
                 <select id="gender" name="gender" class="form-control">
@@ -112,13 +125,16 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="checkboxes">
                 <?= View::lang('Select participating dates') ?></label>
+
             <div class="col-md-4">
-                <?php foreach($this->partEtaps as $etap) { $i=1; ?>
-                <label class="checkbox-inline" for="<?= $etap['etap_id'] ?>">
-                    <input name="etap_id[]" id="<?= $etap['etap_id'] ?>" value="<?= $etap['etap_id'] ?>"
-                           type="checkbox">
-                    <?= $i ?>
-                </label> <?php $i++; }?>
+                <?php foreach ($this->partEtaps as $etap) {
+                    $i = 1; ?>
+                    <label class="checkbox-inline" for="<?= $etap['etap_id'] ?>">
+                        <input name="etap_id[]" id="<?= $etap['etap_id'] ?>" value="<?= $etap['etap_id'] ?>"
+                               type="checkbox">
+                        <?= $i++ ?>
+                    </label> <?php
+                } ?>
             </div>
         </div>
 
@@ -135,11 +151,11 @@
 
         <!-- Submit Button -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="singlebutton"><?= View::lang('Single Button') ?></label>
+            <label class="col-md-4 control-label" for="registerbutton"></label>
 
             <div class="col-md-4">
-                <button id="singlebutton" name="action" value="register"
-                        class="btn btn-primary"><?= View::lang('Button') ?></button>
+                <button id="registerbutton" name="action" value="register"
+                        class="btn btn-primary"><?= View::lang('Register') ?></button>
             </div>
         </div>
 
