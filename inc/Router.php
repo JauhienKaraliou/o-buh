@@ -6,8 +6,6 @@ class Router
 
     public function __construct()
     {
-        SessionModel::start();
-
         $url = (isset($_GET['url'])) ? trim($_GET['url']) : DEFAULT_CONTROLLER;
         $url = rtrim($url, '/');
         $urlParam = explode('/', $url);
@@ -30,7 +28,7 @@ class Router
         } else {
             throw new Exception ('Method not exists');
         }
-        SessionModel::clearMessages();
+
     }
 
 }

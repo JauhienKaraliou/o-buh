@@ -8,6 +8,11 @@ class ProtocolController extends Controller{
         parent::__construct();
     }
 
+    public function __destruct()
+    {
+        parent::__destruct();
+    }
+
     /**
      * shows the list of available protocols
      */

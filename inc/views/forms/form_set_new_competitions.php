@@ -15,16 +15,6 @@ action="<?= View::generateLink(array('admin', 'setNewCompetition')) ?>">
         </div>
     </div>
 
-    <!-- Date-begin input-->
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="number_of_days"><?= View::lang('Number of days') ?></label>
-
-        <div class="col-md-2">
-            <input id="number_of_days" name="day_num" placeholder="<?= View::lang('3') ?>"
-                   class="form-control input-md" required type="date">
-        </div>
-    </div>
-
 
     <!-- Date-begin input-->
     <div class="form-group">
@@ -46,6 +36,8 @@ action="<?= View::generateLink(array('admin', 'setNewCompetition')) ?>">
                    class="form-control input-md" required type="date">
         </div>
     </div>
+
+
 
     <!-- Submit Button -->
     <div class="form-group">

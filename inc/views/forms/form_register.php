@@ -1,5 +1,5 @@
-<form class="form-horizontal" method="post" enctype="multipart/form-data"
-      action="<?= View::generateLink(array('registration', 'submit')) ?>">
+
+<form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?= View::generateLink(array('registration', 'submit')) ?>">
     <fieldset>
 
         <!-- Form Name -->
@@ -10,7 +10,7 @@
         </legend>
         <!-- Competition ID -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="competition_id"><?= View::lang('Competition identifier') ?></label>
+            <label class="col-md-4 control-label" for="competition_id"><?= View::lang('') ?></label>
 
             <div class="col-md-2">
                 <input id="competition_id" name="competition_id" value="<?= $this->competition['id_contest'] ?>"
@@ -67,7 +67,7 @@
             <label class="col-md-4 control-label" for="club"><?= View::lang('Club...') ?></label>
 
             <div class="col-md-4">
-                <select id="club" name="club_id" class="form-control">
+                <select id="club" name="id_club" class="form-control">
                     <option value=""><?= View::lang('New') ?></option>
                     <?php foreach ($this->clubs as $club) { ?>
                         <option value="<?= $club['id_club'] ?>"><?= $club['club_name'] ?></option><?php } ?>
@@ -127,14 +127,12 @@
                 <?= View::lang('Select participating dates') ?></label>
 
             <div class="col-md-4">
-                <?php foreach ($this->partEtaps as $etap) {
-                    $i = 1; ?>
-                    <label class="checkbox-inline" for="<?= $etap['etap_id'] ?>">
-                        <input name="etap_id[]" id="<?= $etap['etap_id'] ?>" value="<?= $etap['etap_id'] ?>"
+                <?php foreach ($this->etaps as $etap) { ?>
+                    <label class="checkbox-inline" for="<?= $etap['id_etap'] ?>">
+                        <input name="id_etap[]" id="<?= $etap['id_etap'] ?>" value="<?= $etap['id_etap'] ?>"
                                type="checkbox">
-                        <?= $i++ ?>
-                    </label> <?php
-                } ?>
+                        <?= $etap['date'] ?>
+                    </label> <?php } ?>
             </div>
         </div>
 
@@ -161,3 +159,4 @@
 
     </fieldset>
 </form>
+

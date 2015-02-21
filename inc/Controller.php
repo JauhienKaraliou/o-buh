@@ -7,6 +7,7 @@ class Controller
 
     protected function __construct()
     {
+        SessionModel::start();
         $this->view = new View();
     }
 
@@ -14,5 +15,10 @@ class Controller
     {
         $address = implode('/', $params);
         header("Location: " .BASE_URL.'/'.$address);
+    }
+
+    protected function __destruct()
+    {
+        SessionModel::clearMessages();
     }
 }

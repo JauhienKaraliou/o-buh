@@ -12,7 +12,7 @@ class SessionModel extends Model
 
     public static function setWarningMessage(array $msgs)
     {
-        $_SESSION['warningMsg']=[];
+        $_SESSION['warningMsg']=(!$_SESSION['warningMsg'])?[]:$_SESSION['warningMsg'];
         foreach ($msgs as $msg) {
             array_push($_SESSION['warningMsg'], $msg);
         }
@@ -20,7 +20,7 @@ class SessionModel extends Model
 
     public static function setSuccessfulMessage(array $msgs)
     {
-        $_SESSION['successMsg']=[];
+        $_SESSION['successMsg']=(!$_SESSION['successMsg'])?[]:$_SESSION['successMsg'];
         foreach ($msgs as $msg) {
             array_push($_SESSION['successMsg'], $msg);
         }

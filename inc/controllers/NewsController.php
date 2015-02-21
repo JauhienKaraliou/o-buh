@@ -8,6 +8,11 @@ class NewsController extends Controller
         parent::__construct();
     }
 
+    public function __destruct()
+    {
+        parent::__destruct();
+    }
+
     /**
      * return the list of last n news
      * @param int $pageNum

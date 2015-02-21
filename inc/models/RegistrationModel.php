@@ -2,7 +2,6 @@
 
 class RegistrationModel extends Model
 {
-
     /**
      * @return array
      */
@@ -25,27 +24,14 @@ class RegistrationModel extends Model
     }
 
     /**
-     * returns the number of running days on competitions
-     * @param $contID
-     * @return array
-     */
-    public static function getEtapNum($contID)
-    {
-        $sth = DB::getInstance()->prepare('SELECT COUNT(*) FROM `buh_etap` WHERE `id_contest`=:id_contest');
-        $sth->execute(array('id_contest' => $contID));
-        return $sth->fetchAll();
-    }
-
-    /**
      * returns classes is being participated into selected competitions
-     * @param $contID
+     * @todo select classes only for definite competition
      * @return array
      */
-    public static function getClasses($contID)
+    public static function getClasses()
     {
-        $sth = DB::getInstance()->prepare('SELECT `id_class` FROM `buh_classes_on_contest` WHERE
-        `id_contest`=:id_contest');
-        $sth->execute(array('id_contest' => $contID));
+        $sth = DB::getInstance()->prepare('SELECT * FROM `buh_class`');
+        $sth->execute();
         return $sth->fetchAll();
     }
 
@@ -56,54 +42,21 @@ class RegistrationModel extends Model
      */
     public static function getEtaps($contID)
     {
-        $sth = DB::getInstance()->prepare('SELECT `id_etap` FROM `buh_etap` WHERE
-        `id_contest`=:id_contest');
+        $sth = DB::getInstance()->prepare('SELECT `id_etap`,`date` FROM `buh_etap` WHERE `id_contest`=:id_contest');
         $sth->execute(array('id_contest' => $contID));
         return $sth->fetchAll();
     }
 
     /**
-     * @todo add result messages through session and autofilling correct fields
      * @return bool
      */
-    public static function registerParticipant()
+    public static function registerParticipant(array $param, array $etapID)
     {
-        $etapID[] = '';
-        $runner['name'] = htmlspecialchars($_POST['name']);
-        $runner['surname'] = htmlspecialchars($_POST['surname']);
-        $runner['birth_year'] = (int)$_POST['year_of_birth'];
-        $runner['gender'] = htmlspecialchars($_POST['gender']);
-        $contestID = (int)$_POST['contest_id'];
-        $clubID = ($_POST['club_id'] != '') ? (int)$_POST['club_id'] :
-            self::setNewClub(htmlspecialchars($_POST['new_club']));
-        if (!$clubID) {
-            SessionModel::setWarningMessage(array('Choose club or enter your own'));
-        }
-        $runnerID = self::getRunnerID($runner);  //@todo rewrite as with the clubID
-        if (!$runnerID) {
-            self::setNewRunner($runner);
-            $runnerID = self::getRunnerID($runner);
-        }
-        $qualID = (int)$_POST['id_qual'];
-        $classID = (int)$_POST['id_class'];
-        $siCardNum = (isset($_POST['si_card'])) ? (int)$_POST['si_card'] : 0;
-        foreach ($_POST['id_etap'] as $postEtap) {
-            array_push($etapID, (int)$postEtap);
-        }
-        $regEmail = filter_var($_POST['club_agent_email'], FILTER_VALIDATE_EMAIL);
         $sth = DB::getInstance()->prepare('INSERT INTO `buh_participant`(`id_etap`,`id_runner`,`id_club`,`id_qual`,
 `id_class`,`si_card_num`,`reg_email`) VALUES (:id_etap,:id_runner,:id_club,:id_qual,:id_class,:si_card_num,:reg_email)');
         foreach ($etapID as $etap) {
-            if (!$sth->execute(array(
-                'id_etap' => $etap,
-                'id_runner' => $runnerID,
-                'id_club' => $clubID,
-                'id_qual' => $qualID,
-                'id_class' => $classID,
-                'si_card_num' => $siCardNum,
-                'reg_email' => $regEmail
-            ))
-            ) {
+            $param['id_etap']=$etap;
+            if (!$sth->execute($param)) {
                 return false;
             }
         }
@@ -119,33 +72,31 @@ class RegistrationModel extends Model
     {
         $sth = DB::getInstance()->prepare('INSERT INTO `buh_clubs`(`club_name`) VALUES (:new_club)');
         $sth->execute(array('new_club' => $club));
-        $sth = DB::getInstance()->prepare('SELECT `id_club` FROM `buh_clubs` WHERE `club_name`=:club_name');
-        $sth->execute(array('club_name' => $club));
-        $clubID = $sth->fetch();
-        return $clubID['id_club'];
+        return DB::getInstance()->lastInsertId();
     }
 
     /**
-     * set new runner
-     * @todo return ID of new registered runner
-     * @param $runner
-     * @return bool
+     * set new runner['name'],['surname'],['birth_year'],['gender']
+     * @param array $runner
+     * @return string
      */
-    public static function setNewRunner($runner)
+    public static function setNewRunner(array $runner)
     {
-        $sth = DB::getInstance()->prepare('INSERT INTO `buh_runners (`name`,`surname`,`birth_year`,`gender`)
+        $sth = DB::getInstance()->prepare('INSERT INTO `buh_runners` (`name`,`surname`,`birth_year`,`gender`)
                                            VALUES (:name,:surname,:birth_year,:gender)');
-        return $sth->execute($runner);
+        $sth->execute($runner);
+        return DB::getInstance()->lastInsertId();
     }
 
     /**
+     * ['name'],['surname']
      * @param array $runner
      * @return mixed
      */
     public static function getRunnerID(array $runner)
     {
         $sth = DB::getInstance()->prepare('SELECT `id_runner` FROM `buh_runners`
-                                           WHERE `name`=:name and `surname`=:surname');
+ WHERE `name`=:name and `surname`=:surname');
         $sth->execute($runner);
         return $sth->fetch();
     }
@@ -197,12 +148,25 @@ WHERE `registration_open`=:registration_open  ORDER BY `date_begin` DESC');
         return $sth->fetchAll();
     }
 
+    /**
+     * returns ['id_contest'],['name'],['date_begin'],['date_end']
+     * @param $param
+     * @return mixed
+     */
     public static function getCompetition($param)
     {
         $sth = DB::getInstance()->prepare('SELECT `id_contest`,`name`,`date_begin`,`date_end` FROM `buh_contests`
 WHERE `id_contest`=:id_contest');
         $sth->execute(array('id_contest'=> $param));
         return $sth->fetch();
+    }
+
+    public static function getNewestCompetition()
+    {
+        $sth=DB::getInstance()->prepare('SELECT `id_contest` FROM `buh_contests` WHERE `registration_open`=:reg_open
+ORDER BY `date_begin` DESC');
+        $sth->execute(array('reg_open'=>1));
+       return $sth->fetchColumn();
     }
 
 }

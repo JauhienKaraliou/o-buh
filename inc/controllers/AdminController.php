@@ -8,6 +8,11 @@ class AdminController extends Controller
         parent::__construct();
     }
 
+    public function __destruct()
+    {
+        parent::__destruct();
+    }
+
     /**
      * shows log-in form
      */
@@ -36,7 +41,7 @@ class AdminController extends Controller
                 SessionModel::setWarningMessage(array('Username-password does not match!'));
             }
         }
-        parent::redirect(array());
+        $this->redirect(array());
     }
 
     /**
@@ -47,7 +52,7 @@ class AdminController extends Controller
         if (isset($_POST['action']) and $_POST['action'] == 'logout') {
             SessionModel::unsetCurrentUser();
         }
-        parent::redirect(array());
+        $this->redirect(array());
     }
 
     /**
@@ -64,9 +69,9 @@ class AdminController extends Controller
             } else {
                 SessionModel::setWarningMessage(array('Adding moderator failed'));
             }
-            parent::redirect(array('admin'));
+            $this->redirect(array('admin'));
         } else {
-            parent::redirect(array());
+            $this->redirect(array());
         }
     }
 
@@ -79,11 +84,12 @@ class AdminController extends Controller
             $this->view->competitions = RegistrationModel::getFutureCompetitionsList();
             $this->view->render('adminPage');
         } else {
-            parent::redirect(array());
+            $this->redirect(array());
         }
     }
 
     /**
+     * @todo add classes selection
      * Sets a new competition event into base
      */
     public function setNewCompetitionAction()
@@ -99,7 +105,7 @@ class AdminController extends Controller
                 SessionModel::setSuccessfulMessage(array('New competition set up successfully!'));
             }
         }
-        parent::redirect(array('admin','manage'));
+        $this->redirect(array('admin','manage'));
     }
 
     /**

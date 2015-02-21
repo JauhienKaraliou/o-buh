@@ -9,6 +9,11 @@ class GuestbookController extends Controller
         parent::__construct();
     }
 
+    public function __destruct()
+    {
+        parent::__destruct();
+    }
+
     public function defaultAction()
     {
         $this->view->comments = GuestbookModel::getMessages();
