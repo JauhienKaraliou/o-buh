@@ -28,10 +28,10 @@
 
         <!-- CAPTCHA input-->
         <div class="form-group">
-            <label class="col-md-4 control-label"><?= $captchaQuest ?></label>
+            <label class="col-md-4 control-label"><?= $this->captcha ?></label>
 
             <div class="col-md-5">
-                <input class="col-md-5" type="text" name="captha" id="author"
+                <input class="col-md-5" type="text" name="captcha" id="author"
                        placeholder="<?= View::lang('Insert answer') ?>">
             </div>
         </div>
@@ -42,8 +42,8 @@
             <label class="col-md-4 control-label"></label>
 
             <div class="col-md-4">
-                <input type="submit" name="action" value="<?= View::lang('Post the comment') ?>"
-                       class="btn-md btn-inverse col-md-4">
+                <button type="submit" name="action" value="post"
+                       class="btn-md btn-inverse col-md-4"><?= View::lang('Post') ?></button>
             </div>
         </div>
 

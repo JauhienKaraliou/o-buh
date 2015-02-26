@@ -12,8 +12,7 @@ class UserModel extends Model {
         $sth = DB::getInstance()->prepare('SELECT `id_user`,`user_status_id` FROM `buh_users` WHERE `username`=:username and
             `sha1_password`=:sha1_password');
         $sth->execute(array('username' => $userParams['name'], 'sha1_password' => sha1($userParams['password'])));
-        return $sth->fetchColumn(1);
-
+        return $sth->fetch();
     }
 
     /**
@@ -30,5 +29,4 @@ VALUES (:username,:user_status_id,:email,:sha1_password)');
             'email'=>$param['email'],
             'sha1_password'=>sha1($param['new_password'])));
     }
-
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 class RegistrationController extends Controller
 {
 
@@ -9,11 +8,10 @@ class RegistrationController extends Controller
         parent::__construct();
     }
 
-    public function __destruct()
-    {
-        parent::__destruct();
-    }
-
+    /**
+     * shows registration form
+     * @param int $contID
+     */
     public function defaultAction($contID = 0)
     {
         $contID = ($contID == 0) ? RegistrationModel::getNewestCompetition() : $contID;
@@ -23,8 +21,12 @@ class RegistrationController extends Controller
         $this->view->etaps = RegistrationModel::getEtaps($contID);
         $this->view->competition = RegistrationModel::getCompetition($contID);
         $this->view->render('registration');
+        $this->clearMessages();
     }
 
+    /**
+     * register runner to competition
+     */
     public function submitAction()
     {
         if (isset($_POST['action']) and $_POST['action'] == 'register') {
@@ -37,14 +39,11 @@ class RegistrationController extends Controller
                 $runner['birth_year'] = (int)$_POST['year_of_birth'];
                 $param['id_runner'] = RegistrationModel::setNewRunner($runner);
             }
-            //$param['competition_id'] = (int)$_POST['competition_id'];
             $param['id_qual'] = (int)$_POST['id_qual'];
             $param['id_class'] = (int)$_POST['id_class'];
             $param['si_card_num'] = (isset($_POST['si_card'])) ? (int)$_POST['si_card'] : 0;
             $param['reg_email'] = filter_var($_POST['club_agent_email'], FILTER_VALIDATE_EMAIL);
-            foreach ($_POST['id_etap'] as $e) {
-                array_push($etapID, (int)$e);
-            }
+            $etapID = $_POST['id_etap'];
             if (isset($_POST['id_club']) and $_POST['id_club']!='') {
                 $param['id_club'] = (int)$_POST['id_club'];
             } elseif (!$_POST['id_club'] and isset($_POST['new_club'])) {
@@ -52,9 +51,6 @@ class RegistrationController extends Controller
             } else {
                 SessionModel::setWarningMessage(array('select your club or enter a new one!'));
             }
-
-
-
             if(RegistrationModel::registerParticipant($param, $etapID)) {
                 SessionModel::setSuccessfulMessage(array('Registered successfully!'));
             } else {
@@ -63,5 +59,4 @@ class RegistrationController extends Controller
         }
         $this->redirect(array('registration', 'default', $_POST['competition_id']));
     }
-
 }

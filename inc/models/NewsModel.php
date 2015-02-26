@@ -1,28 +1,31 @@
 <?php
 
-
 class NewsModel extends Model
 {
-    /**
-     * Метод для спора с Василием Сергеевичем о ток как работает PDO
-     * @param $pageNum
-     * @return array
-     */
-    public static function getNewsListPrepared($pageNum)
+    public static function countMessages()
     {
-        $page = parent::checkPage($pageNum);
-        $offset = ($page - 1) * LIMIT_PER_PAGE;
-        $limit = LIMIT_PER_PAGE;
-        $sth = DB::getInstance()->prepare('SELECT `id_post`,`id_user`,`date_time`,`prev_content` FROM `buh_posts`  ORDER BY
-`date_time` DESC LIMIT :limit OFFSET :offset');
-        $sth->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-        $sth->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $sth = DB::getInstance()->prepare('SELECT COUNT(*) AS num FROM `buh_posts`');
         $sth->execute();
-        $news = $sth->fetchAll();
-        return $news;
+        return $sth->fetchColumn();
     }
 
     /**
+     * @param $limit
+     * @param $offset
+     * @return array
+     */
+    public static function getNewsList($limit, $offset)
+    {
+        $sth = DB::getInstance()->prepare('SELECT `id_post`,`id_user`,`date_time`,`prev_content` FROM `buh_posts`
+ ORDER BY `date_time` DESC LIMIT :limit OFFSET :offset');
+        $sth->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $sth->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $sth->execute();
+        return $sth->fetchAll();
+    }
+
+    /**
+     * @todo return author of the post
      * returns selected post
      * @param $postID
      * @return array
@@ -30,26 +33,20 @@ class NewsModel extends Model
     public static function getSelectedPost($postID)
     {
         $sth = DB::getInstance()->prepare('SELECT * FROM `buh_posts` WHERE `id_post`=:id_post');
-        $sth->bindValue(':id_post', (int)$postID, PDO::PARAM_INT);
+        $sth->bindValue(':id_post', $postID, PDO::PARAM_INT);
         $sth->execute();
-        $post = $sth->fetchAll();
+        $post = $sth->fetch();
         return $post;
     }
 
     /**
-     * @todo selecting authorized moderator
+     * @param array $param
+     * @return bool
      */
-    public static function savePost()
+    public static function savePost(array $param)
     {
-        $userID = 1;
-        $content = $_POST['area'];
-        $postPrev = htmlspecialchars($_POST['post_preview']);
-        $title = htmlspecialchars($_POST['post_title']);
         $sth = DB::getInstance()->prepare('INSERT INTO `buh_posts`(`id_user`,`content`,`prev_content`,`title`)
 VALUES (:id_user, :content, :prev_content, :title)');
-        return $sth->execute(array('id_user'=>$userID, 'content'=>$content, 'prev_content'=>$postPrev,
-        'title'=>$title));
-
+        return $sth->execute($param);
     }
-
 }

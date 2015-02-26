@@ -1,6 +1,5 @@
 <?php
 
-
 class Controller
 {
     protected $view;
@@ -17,8 +16,14 @@ class Controller
         header("Location: " .BASE_URL.'/'.$address);
     }
 
-    protected function __destruct()
+    public function clearMessages()
     {
         SessionModel::clearMessages();
+    }
+
+    public function checkPage($page)
+    {
+        $page = ($page > 0)?$page:1;
+        return $page;
     }
 }

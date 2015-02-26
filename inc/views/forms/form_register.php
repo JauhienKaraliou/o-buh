@@ -1,4 +1,3 @@
-
 <form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?= View::generateLink(array('registration', 'submit')) ?>">
     <fieldset>
 
@@ -91,7 +90,7 @@
             <label class="col-md-4 control-label" for="qualification"><?= View::lang('Qualification') ?></label>
 
             <div class="col-md-4">
-                <select id="qualification" name="qualification" class="form-control">
+                <select id="qualification" name="id_qual" class="form-control">
                     <?php foreach ($this->quals as $qual) { ?>
                         <option value="<?= $qual['id_qual'] ?>"><?= $qual['qual_name'] ?></option><?php } ?>
                 </select>
@@ -103,7 +102,7 @@
             <label class="col-md-4 control-label" for="class"><?= View::lang('Class') ?></label>
 
             <div class="col-md-4">
-                <select id="class" name="class" class="form-control">
+                <select id="class" name="id_class" class="form-control">
                     <?php foreach ($this->classes as $class) { ?>
                         <option value="<?= $class['id_class'] ?>"><?= $class['class_name'] ?></option><?php } ?>
                 </select>

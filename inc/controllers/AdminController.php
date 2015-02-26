@@ -8,11 +8,6 @@ class AdminController extends Controller
         parent::__construct();
     }
 
-    public function __destruct()
-    {
-        parent::__destruct();
-    }
-
     /**
      * shows log-in form
      */
@@ -23,7 +18,6 @@ class AdminController extends Controller
         } else {
             $this->view->render('login');
         }
-
     }
 
     /**
@@ -34,9 +28,9 @@ class AdminController extends Controller
         if (isset($_POST['action']) and $_POST['action'] == 'login') {
             $username = htmlspecialchars($_POST['username']);
             $password = htmlspecialchars($_POST['password']);
-            $userStatus = UserModel::checkUserPassword(array('name' => $username, 'password' => $password));
-            if ($userStatus) {
-                SessionModel::setCurrentUser($username, $userStatus);
+            $userID = UserModel::checkUserPassword(array('name' => $username, 'password' => $password));
+            if ($userID) {
+                SessionModel::setCurrentUser($username, $userID);
             } else {
                 SessionModel::setWarningMessage(array('Username-password does not match!'));
             }
@@ -107,13 +101,4 @@ class AdminController extends Controller
         }
         $this->redirect(array('admin','manage'));
     }
-
-    /**
-     * @todo set this option
-     */
-    public function changePasswordAction()
-    {
-
-    }
-
 }

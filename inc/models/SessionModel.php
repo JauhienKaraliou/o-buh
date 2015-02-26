@@ -1,9 +1,7 @@
 <?php
 
-
 class SessionModel extends Model
 {
-
 
     public static function start()
     {
@@ -26,16 +24,23 @@ class SessionModel extends Model
         }
     }
 
-    public static function setCurrentUser($name,$status)
+    public static function setCurrentUser($name,$userID)
     {
-        $_SESSION['userStatus'] = $status;
+        $_SESSION['userStatus'] = $userID['user_status_id'];
         $_SESSION['userName'] = $name;
+        $_SESSION['userID']= $userID['id_user'];
+    }
+
+    public static function setCaptchaAnswer($string)
+    {
+        $_SESSION['captchaAnswer'] = $string;
     }
 
     public static function unsetCurrentUser()
     {
         unset($_SESSION['userStatus']);
         unset($_SESSION['userName']);
+        unset($_SESSION['userID']);
     }
 
     /**
@@ -46,6 +51,11 @@ class SessionModel extends Model
         return $_SESSION['userName'];
     }
 
+    public static function getCaptchaAnswer()
+    {
+        return $_SESSION['captchaAnswer'];
+    }
+
     /**
      * @return mixed
      */
@@ -54,10 +64,17 @@ class SessionModel extends Model
         return $_SESSION['userStatus'];
     }
 
+    /**
+     * @return mixed
+     */
+    public static function getCurrentUserID()
+    {
+        return $_SESSION['userID'];
+    }
+
     public static function clearMessages()
     {
         unset($_SESSION['warningMsg']);
         unset($_SESSION['successMsg']);
     }
-
 }

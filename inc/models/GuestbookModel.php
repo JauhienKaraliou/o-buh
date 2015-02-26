@@ -2,50 +2,40 @@
 
 class GuestbookModel extends Model
 {
-
     /**
-     * @todo  fix thees two methods
+     * @param $limit
+     * @param $offset
      * @return array
      */
-    public static function getMessages()
+    public static function getMessages($limit,$offset)
     {
-        $sth = DB::getInstance()->prepare('SELECT * FROM `buh_comments`');
+        $sth = DB::getInstance()->prepare('SELECT * FROM `buh_comments` ORDER BY `date_time` DESC
+LIMIT :limit OFFSET :offset');
+        $sth->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $sth->bindValue(':limit', $limit, PDO::PARAM_INT);
         $sth->execute();
-        $list = $sth->fetchAll();
-        return $list;
+        return $sth->fetchAll();
     }
 
     /**
-     * @todo  fix thees two methods
-     * @return mixed
+     * counts number of messages in guestbook
+     * @return string
      */
     public static function countMessages()
     {
         $sth = DB::getInstance()->prepare('SELECT COUNT(*) AS num FROM `buh_comments`');
         $sth->execute();
-        $quantity = $sth->fetch();
-        return $quantity['num'];
+        return $sth->fetchColumn();
     }
 
     /**
-     * @todo  fix thees two methods
-     * @return mixed
+     * @param $param
+     * @return bool
      */
-    public function goToPage($num)
-    {
-
-    }
-
-    public static function saveMessage()
+    public static function saveMessage($param)
     {
         $sth = DB::getInstance()->prepare('INSERT INTO `buh_comments`
 (`author_name`, `author_email`, `text`, `is_deleted`) VALUES (:author, :email, :text, :del)');
-        $authorName = htmlspecialchars($_POST['author_name']);
-        $authorEmail = htmlspecialchars($_POST['author_email']);
-        $text = htmlspecialchars($_POST['messagetext']);
-        $isDeleted = 0;
-        $execRes = $sth->execute(array('author' => $authorName, 'email' => $authorEmail, 'text' => $text, 'del' => $isDeleted));
-        return $execRes;
+        return $sth->execute($param);
     }
-
 }

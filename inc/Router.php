@@ -1,9 +1,7 @@
 <?php
 
-
 class Router
 {
-
     public function __construct()
     {
         $url = (isset($_GET['url'])) ? trim($_GET['url']) : DEFAULT_CONTROLLER;
@@ -28,7 +26,5 @@ class Router
         } else {
             throw new Exception ('Method not exists');
         }
-
     }
-
 }

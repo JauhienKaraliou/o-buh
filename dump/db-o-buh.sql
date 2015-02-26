@@ -22,11 +22,13 @@ DROP TABLE IF EXISTS `buh_class`;
 
 CREATE TABLE `buh_class` (
   `id_class` int(11) NOT NULL AUTO_INCREMENT,
-  `class_name` enum('M21','W21') NOT NULL,
+  `class_name` varchar(45) NOT NULL,
   PRIMARY KEY (`id_class`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_class` */
+
+insert  into `buh_class`(`id_class`,`class_name`) values (1,'M12'),(2,'M14'),(3,'M16'),(4,'M18');
 
 /*Table structure for table `buh_classes_on_contest` */
 
@@ -54,9 +56,11 @@ CREATE TABLE `buh_clubs` (
   `club_name` varchar(45) NOT NULL,
   `club_hometown` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_club`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_clubs` */
+
+insert  into `buh_clubs`(`id_club`,`club_name`,`club_hometown`) values (1,'BNTU',NULL),(2,'BPU',NULL),(3,'BPU',NULL),(4,'DFR',NULL);
 
 /*Table structure for table `buh_comments` */
 
@@ -87,9 +91,11 @@ CREATE TABLE `buh_contests` (
   `date_end` date NOT NULL,
   `registration_open` enum('1','0') NOT NULL,
   PRIMARY KEY (`id_contest`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_contests` */
+
+insert  into `buh_contests`(`id_contest`,`name`,`date_begin`,`date_end`,`registration_open`) values (11,'Dummy Competitions-6','2015-11-02','2015-11-03','1'),(12,'Dummy Competitions-4','2013-12-20','2013-12-22','1'),(13,'Dummy Competitions-4','2013-12-20','2013-12-22','1');
 
 /*Table structure for table `buh_etap` */
 
@@ -102,9 +108,11 @@ CREATE TABLE `buh_etap` (
   PRIMARY KEY (`id_etap`),
   KEY `etap_to_contest` (`id_contest`),
   CONSTRAINT `etap_to_contest` FOREIGN KEY (`id_contest`) REFERENCES `buh_contests` (`id_contest`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_etap` */
+
+insert  into `buh_etap`(`id_etap`,`id_contest`,`date`) values (7,11,'2015-11-02'),(8,11,'2015-11-03'),(9,12,'2013-12-20'),(10,12,'2013-12-21'),(11,12,'2013-12-22'),(12,13,'2013-12-20'),(13,13,'2013-12-21'),(14,13,'2013-12-22');
 
 /*Table structure for table `buh_label` */
 
@@ -168,11 +176,11 @@ CREATE TABLE `buh_posts` (
   PRIMARY KEY (`id_post`),
   KEY `id_user` (`id_user`),
   CONSTRAINT `buh_posts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `buh_users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_posts` */
 
-insert  into `buh_posts`(`id_post`,`id_user`,`date_time`,`content`,`prev_content`,`title`) values (1,1,'2015-02-11 08:39:47','this is first dummy post','this is first dummy post',NULL),(2,1,'2015-02-11 14:21:56','<p>Правила преобразования ссылок:</p>\r\n<p>Если в подкаталогах в .htaccess нет ни одной директивы модуля mod_rewrite, то все правила преобразования наследуются из родительского каталога.</p>\r\n<p>При наличии в файле .htaccess каких либо директив модуля mod_rewrite не наследуется ничего, а состояние по умолчанию выставляется таким же, как в главном конфигурационном файле веб-сервера (по умолчанию \"off\"). Поэтому, если нужны правила преобразования для конкретного каталога, то нужно еще раз вставить директиву \"RewriteEngine on\" в .htaccess для конкретного каталога.</p>\r\n<p>При наследовании правил из верхних каталогов и добавлении к ним новых свойственных только данному каталогу - необходимо выставить в начале следущее: \"RewriteEngine on\" и <a href=\"http://htaccess.net.ru/doc/mod_rewrite/RewriteOptions.php\">\"RewriteOptions inherit\"</a> - последняя директива сообщает серверу о продолжении.</p>\r\n<h2>&nbsp;</h2>','all about contest','dummy post title'),(3,1,'2015-02-11 14:22:14','<p>Правила преобразования ссылок:</p>\r\n<p>Если в подкаталогах в .htaccess нет ни одной директивы модуля mod_rewrite, то все правила преобразования наследуются из родительского каталога.</p>\r\n<p>При наличии в файле .htaccess каких либо директив модуля mod_rewrite не наследуется ничего, а состояние по умолчанию выставляется таким же, как в главном конфигурационном файле веб-сервера (по умолчанию \"off\"). Поэтому, если нужны правила преобразования для конкретного каталога, то нужно еще раз вставить директиву \"RewriteEngine on\" в .htaccess для конкретного каталога.</p>\r\n<p>При наследовании правил из верхних каталогов и добавлении к ним новых свойственных только данному каталогу - необходимо выставить в начале следущее: \"RewriteEngine on\" и <a href=\"http://htaccess.net.ru/doc/mod_rewrite/RewriteOptions.php\">\"RewriteOptions inherit\"</a> - последняя директива сообщает серверу о продолжении.</p>\r\n<h2>&nbsp;</h2>','all about contest','dummy post title');
+insert  into `buh_posts`(`id_post`,`id_user`,`date_time`,`content`,`prev_content`,`title`) values (1,1,'2015-02-11 08:39:47','this is first dummy post','this is first dummy post',NULL),(2,1,'2015-02-11 14:21:56','<p>Правила преобразования ссылок:</p>\r\n<p>Если в подкаталогах в .htaccess нет ни одной директивы модуля mod_rewrite, то все правила преобразования наследуются из родительского каталога.</p>\r\n<p>При наличии в файле .htaccess каких либо директив модуля mod_rewrite не наследуется ничего, а состояние по умолчанию выставляется таким же, как в главном конфигурационном файле веб-сервера (по умолчанию \"off\"). Поэтому, если нужны правила преобразования для конкретного каталога, то нужно еще раз вставить директиву \"RewriteEngine on\" в .htaccess для конкретного каталога.</p>\r\n<p>При наследовании правил из верхних каталогов и добавлении к ним новых свойственных только данному каталогу - необходимо выставить в начале следущее: \"RewriteEngine on\" и <a href=\"http://htaccess.net.ru/doc/mod_rewrite/RewriteOptions.php\">\"RewriteOptions inherit\"</a> - последняя директива сообщает серверу о продолжении.</p>\r\n<h2>&nbsp;</h2>','all about contest','dummy post title'),(3,1,'2015-02-11 14:22:14','<p>Правила преобразования ссылок:</p>\r\n<p>Если в подкаталогах в .htaccess нет ни одной директивы модуля mod_rewrite, то все правила преобразования наследуются из родительского каталога.</p>\r\n<p>При наличии в файле .htaccess каких либо директив модуля mod_rewrite не наследуется ничего, а состояние по умолчанию выставляется таким же, как в главном конфигурационном файле веб-сервера (по умолчанию \"off\"). Поэтому, если нужны правила преобразования для конкретного каталога, то нужно еще раз вставить директиву \"RewriteEngine on\" в .htaccess для конкретного каталога.</p>\r\n<p>При наследовании правил из верхних каталогов и добавлении к ним новых свойственных только данному каталогу - необходимо выставить в начале следущее: \"RewriteEngine on\" и <a href=\"http://htaccess.net.ru/doc/mod_rewrite/RewriteOptions.php\">\"RewriteOptions inherit\"</a> - последняя директива сообщает серверу о продолжении.</p>\r\n<h2>&nbsp;</h2>','all about contest','dummy post title'),(4,1,'2015-02-17 22:24:24','<p>vbfhvfkjdsvbsvsvf</p>','123','tratata');
 
 /*Table structure for table `buh_qualification` */
 
@@ -197,12 +205,13 @@ CREATE TABLE `buh_runners` (
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
   `birth_year` year(4) NOT NULL,
-  `comment` text,
   `gender` enum('male','female') NOT NULL,
   PRIMARY KEY (`id_runner`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_runners` */
+
+insert  into `buh_runners`(`id_runner`,`name`,`surname`,`birth_year`,`gender`) values (1,'jauhien','Karaliou',1989,'male'),(2,'sascha','karaliou',1992,'male');
 
 /*Table structure for table `buh_user_status` */
 
@@ -212,11 +221,11 @@ CREATE TABLE `buh_user_status` (
   `user_status_id` int(11) NOT NULL AUTO_INCREMENT,
   `status_name` varchar(45) NOT NULL,
   PRIMARY KEY (`user_status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_user_status` */
 
-insert  into `buh_user_status`(`user_status_id`,`status_name`) values (1,'dummy');
+insert  into `buh_user_status`(`user_status_id`,`status_name`) values (1,'admin'),(2,'moderator');
 
 /*Table structure for table `buh_users` */
 
@@ -228,15 +237,15 @@ CREATE TABLE `buh_users` (
   `user_status_id` int(11) NOT NULL,
   `email` varchar(45) NOT NULL,
   `sha1_password` varchar(45) NOT NULL,
-  `user_key` varchar(45) NOT NULL,
+  `user_key` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_user`),
   KEY `user_status_id` (`user_status_id`),
   CONSTRAINT `buh_users_ibfk_1` FOREIGN KEY (`user_status_id`) REFERENCES `buh_user_status` (`user_status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_users` */
 
-insert  into `buh_users`(`id_user`,`username`,`user_status_id`,`email`,`sha1_password`,`user_key`) values (1,'dummy',1,'dummy@dooo.com','123456','123456');
+insert  into `buh_users`(`id_user`,`username`,`user_status_id`,`email`,`sha1_password`,`user_key`) values (1,'dummy',1,'dummy@dooo.com','8cb2237d0679ca88db6464eac60da96345513964','123456'),(2,'dummy2',2,'a@b.com','8cb2237d0679ca88db6464eac60da96345513964',NULL),(3,'dummy3',2,'jauhien@s.er','8cb2237d0679ca88db6464eac60da96345513964',NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

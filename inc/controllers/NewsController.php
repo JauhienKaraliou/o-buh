@@ -1,16 +1,10 @@
 <?php
 
-
 class NewsController extends Controller
 {
     public function __construct()
     {
         parent::__construct();
-    }
-
-    public function __destruct()
-    {
-        parent::__destruct();
     }
 
     /**
@@ -19,8 +13,7 @@ class NewsController extends Controller
      */
     public function defaultAction($pageNum = 1)
     {
-        $this -> view -> newsList = NewsModel::getNewsListPrepared((int)$pageNum);
-        $this -> view -> render('news');
+        $this->pageAction((int) $pageNum);
     }
 
     /**
@@ -28,7 +21,14 @@ class NewsController extends Controller
      */
     public function pageAction($pageNum=1)
     {
-        self::defaultAction((int) $pageNum);
+        $pageNum = $this->checkPage((int)$pageNum);
+        $offset = ($pageNum - 1) * LIMIT_PER_PAGE;
+        $limit = LIMIT_PER_PAGE;
+        $this -> view -> newsList = NewsModel::getNewsList($limit,$offset);
+        $this->view->pageQuant = ceil(NewsModel::countMessages()/LIMIT_PER_PAGE);
+        $this->view->pageCur = $pageNum;
+        $this->view->area = 'news';
+        $this -> view -> render('news');
     }
 
     /**
@@ -38,36 +38,12 @@ class NewsController extends Controller
     public function postAction($postID=0)
     {
         if($postID==0) {
-            self::defaultAction();
+            $this->redirect(array('news','default'));
         } else {
-            require_once 'inc/models/NewsModel.php';
             $this -> view -> post = NewsModel::getSelectedPost((int) $postID);
             $this -> view -> render('post');
         }
-
     }
-
-    /**
-     * @todo fulfil this method
-     * show the full variant of definite post
-     * @param $postID
-     */
-    public function readAction($postID)
-    {
-
-    }
-
-    /**
-     * @todo do editing news
-     *
-     * provide possibility to edit posts
-     * @param $newsID
-     */
-    public function editAction($newsID)
-    {
-
-    }
-
 
     /**
      * moves to form for creating news
@@ -82,15 +58,17 @@ class NewsController extends Controller
      */
     public function publishAction()
     {
-        NewsModel::savePost();
-        parent::redirect(array('news'));
-    }
-
-    /**
-     * remove news
-     */
-    public function removeAction()
-    {
-
+        if(isset($_POST['action']) and $_POST['action']=='publish') {
+            $param['id_user'] = SessionModel::getCurrentUserID();
+            $param['content'] = $_POST['area'];
+            $param['prev_content'] = htmlspecialchars($_POST['post_preview']);
+            $param['title'] = htmlspecialchars($_POST['post_title']);
+            if(NewsModel::savePost($param)) {
+                SessionModel::setSuccessfulMessage(array('Published successfully!'));
+            } else {
+                SessionModel::setWarningMessage(array('An error occurred while publishing'));
+            }
+        }
+        $this->redirect(array('news'));
     }
 }

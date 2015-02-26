@@ -1,6 +1,6 @@
 <?php require 'inc/views/divs/header.php' ?>
 
-<h1><?= View::lang('Administration/moderating page') ?></h1>
+<h3><?= View::lang('Administration/moderating page') ?></h3>
 
 <?php
 require_once 'inc/views/forms/form_set_new_competitions.php';

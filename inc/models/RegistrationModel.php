@@ -168,5 +168,4 @@ ORDER BY `date_begin` DESC');
         $sth->execute(array('reg_open'=>1));
        return $sth->fetchColumn();
     }
-
 }

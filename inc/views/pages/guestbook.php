@@ -1,13 +1,14 @@
 <?php require 'inc/views/divs/header.php' ?>
 
-    <h1><?= View::lang('Guestbook') ?></h1>
+    <h3><?= View::lang('Guestbook') ?></h3>
 
-    <ul><?php foreach ($this->comments as $comment) { ?>
-            <li>
+    <dl class="dl-horizontal"><?php foreach ($this->comments as $comment) { ?>
+            <dt><?=$comment['author_name']?><br><time><small><?=$comment['date_time'] ?></small></time></dt>
+            <dd>
                 <div id="<?= $comment['id_comment'] ?>"><?= $comment['text'] ?></div>
-            </li>
+            </dd>
         <?php } ?>
-    </ul>
+    </dl>
 
 <?php
 require 'inc/views/divs/paginator.php';

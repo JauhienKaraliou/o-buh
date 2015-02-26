@@ -15,12 +15,10 @@ class DB extends PDO{
     {
         try {
             parent::__construct($dsn, $username, $password, $options);
-
         } catch (PDOException $e) {
             print "Error:".$e->getMessage().'<br>';
             die();
         }
-
     }
 
     /**
