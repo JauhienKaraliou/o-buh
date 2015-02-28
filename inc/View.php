@@ -2,8 +2,6 @@
 
 class View
 {
-    public $page = 1;
-
     /**
      * @param $tplName
      */

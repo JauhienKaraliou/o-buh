@@ -2,6 +2,14 @@
 
 class Model
 {
+    /**
+     * @param $to
+     * @param $subject
+     * @param $body
+     * @return bool
+     * @throws Exception
+     * @throws phpmailerException
+     */
     public static function sendMail($to, $subject, $body)
     {
         $mail = new PHPMailer();

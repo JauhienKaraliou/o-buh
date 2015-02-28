@@ -3,11 +3,17 @@
 class SessionModel extends Model
 {
 
+    /**
+     *
+     */
     public static function start()
     {
         session_start();
     }
 
+    /**
+     * @param array $msgs
+     */
     public static function setWarningMessage(array $msgs)
     {
         $_SESSION['warningMsg']=(!$_SESSION['warningMsg'])?[]:$_SESSION['warningMsg'];
@@ -16,6 +22,9 @@ class SessionModel extends Model
         }
     }
 
+    /**
+     * @param array $msgs
+     */
     public static function setSuccessfulMessage(array $msgs)
     {
         $_SESSION['successMsg']=(!$_SESSION['successMsg'])?[]:$_SESSION['successMsg'];
@@ -24,6 +33,10 @@ class SessionModel extends Model
         }
     }
 
+    /**
+     * @param $name
+     * @param $userID
+     */
     public static function setCurrentUser($name,$userID)
     {
         $_SESSION['userStatus'] = $userID['user_status_id'];
@@ -31,11 +44,17 @@ class SessionModel extends Model
         $_SESSION['userID']= $userID['id_user'];
     }
 
+    /**
+     * @param $string
+     */
     public static function setCaptchaAnswer($string)
     {
         $_SESSION['captchaAnswer'] = $string;
     }
 
+    /**
+     *
+     */
     public static function unsetCurrentUser()
     {
         unset($_SESSION['userStatus']);
@@ -51,6 +70,9 @@ class SessionModel extends Model
         return $_SESSION['userName'];
     }
 
+    /**
+     * @return mixed
+     */
     public static function getCaptchaAnswer()
     {
         return $_SESSION['captchaAnswer'];
@@ -72,6 +94,9 @@ class SessionModel extends Model
         return $_SESSION['userID'];
     }
 
+    /**
+     * clears the warning and success messages
+     */
     public static function clearMessages()
     {
         unset($_SESSION['warningMsg']);

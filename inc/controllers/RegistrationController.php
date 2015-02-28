@@ -2,12 +2,6 @@
 
 class RegistrationController extends Controller
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * shows registration form
      * @param int $contID
@@ -58,5 +52,11 @@ class RegistrationController extends Controller
             }
         }
         $this->redirect(array('registration', 'default', $_POST['competition_id']));
+    }
+
+    public function listAction()
+    {
+
+        $this->view->render('participantList');
     }
 }

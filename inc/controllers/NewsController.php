@@ -2,11 +2,6 @@
 
 class NewsController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * return the list of last n news
      * @param int $pageNum

@@ -74,11 +74,11 @@ CREATE TABLE `buh_comments` (
   `text` text NOT NULL,
   `is_deleted` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0-visible, 1-invisible',
   PRIMARY KEY (`id_comment`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_comments` */
 
-insert  into `buh_comments`(`id_comment`,`author_name`,`author_email`,`date_time`,`text`,`is_deleted`) values (1,'robot','a@B.com','2015-02-11 10:11:01','dummy comment','0'),(2,'robot','a@B.com','2015-02-11 10:11:25','dummy comment n2','0'),(3,'robot 2','a@B.com','2015-02-13 12:50:20','dummy 3','0');
+insert  into `buh_comments`(`id_comment`,`author_name`,`author_email`,`date_time`,`text`,`is_deleted`) values (1,'robot','a@B.com','2015-02-11 10:11:01','dummy comment','0'),(2,'robot','a@B.com','2015-02-11 10:11:25','dummy comment n2','0'),(3,'robot 2','a@B.com','2015-02-13 12:50:20','dummy 3','0'),(4,'Яуген','a@B.com','2015-02-25 16:07:36','Хочу участвовать в этих соревах','0'),(5,'robot','a@B.com','2015-02-26 13:11:58','Test comment','0');
 
 /*Table structure for table `buh_contests` */
 
@@ -158,9 +158,11 @@ CREATE TABLE `buh_participant` (
   CONSTRAINT `part_to_qual` FOREIGN KEY (`id_qual`) REFERENCES `buh_qualification` (`id_qual`),
   CONSTRAINT `part_to_runners` FOREIGN KEY (`id_runner`) REFERENCES `buh_runners` (`id_runner`),
   CONSTRAINT `qual_acc_to_qual` FOREIGN KEY (`id_qual_accompl`) REFERENCES `buh_qualification` (`id_qual`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_participant` */
+
+insert  into `buh_participant`(`id_part`,`id_etap`,`id_runner`,`id_club`,`id_class`,`id_qual`,`start_time`,`finish_time`,`id_qual_accompl`,`si_card_num`,`reg_email`) values (1,7,7,2,4,2,NULL,NULL,NULL,0,'stralcou@gmail.com'),(2,8,7,2,4,2,NULL,NULL,NULL,0,'stralcou@gmail.com'),(3,7,8,3,1,1,NULL,NULL,NULL,0,'stralcou@gmail.com'),(4,8,8,3,1,1,NULL,NULL,NULL,0,'stralcou@gmail.com'),(5,7,9,4,1,1,NULL,NULL,NULL,0,'stralcou@gmail.com'),(6,8,9,4,1,1,NULL,NULL,NULL,0,'stralcou@gmail.com');
 
 /*Table structure for table `buh_posts` */
 
@@ -176,11 +178,11 @@ CREATE TABLE `buh_posts` (
   PRIMARY KEY (`id_post`),
   KEY `id_user` (`id_user`),
   CONSTRAINT `buh_posts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `buh_users` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_posts` */
 
-insert  into `buh_posts`(`id_post`,`id_user`,`date_time`,`content`,`prev_content`,`title`) values (1,1,'2015-02-11 08:39:47','this is first dummy post','this is first dummy post',NULL),(2,1,'2015-02-11 14:21:56','<p>Правила преобразования ссылок:</p>\r\n<p>Если в подкаталогах в .htaccess нет ни одной директивы модуля mod_rewrite, то все правила преобразования наследуются из родительского каталога.</p>\r\n<p>При наличии в файле .htaccess каких либо директив модуля mod_rewrite не наследуется ничего, а состояние по умолчанию выставляется таким же, как в главном конфигурационном файле веб-сервера (по умолчанию \"off\"). Поэтому, если нужны правила преобразования для конкретного каталога, то нужно еще раз вставить директиву \"RewriteEngine on\" в .htaccess для конкретного каталога.</p>\r\n<p>При наследовании правил из верхних каталогов и добавлении к ним новых свойственных только данному каталогу - необходимо выставить в начале следущее: \"RewriteEngine on\" и <a href=\"http://htaccess.net.ru/doc/mod_rewrite/RewriteOptions.php\">\"RewriteOptions inherit\"</a> - последняя директива сообщает серверу о продолжении.</p>\r\n<h2>&nbsp;</h2>','all about contest','dummy post title'),(3,1,'2015-02-11 14:22:14','<p>Правила преобразования ссылок:</p>\r\n<p>Если в подкаталогах в .htaccess нет ни одной директивы модуля mod_rewrite, то все правила преобразования наследуются из родительского каталога.</p>\r\n<p>При наличии в файле .htaccess каких либо директив модуля mod_rewrite не наследуется ничего, а состояние по умолчанию выставляется таким же, как в главном конфигурационном файле веб-сервера (по умолчанию \"off\"). Поэтому, если нужны правила преобразования для конкретного каталога, то нужно еще раз вставить директиву \"RewriteEngine on\" в .htaccess для конкретного каталога.</p>\r\n<p>При наследовании правил из верхних каталогов и добавлении к ним новых свойственных только данному каталогу - необходимо выставить в начале следущее: \"RewriteEngine on\" и <a href=\"http://htaccess.net.ru/doc/mod_rewrite/RewriteOptions.php\">\"RewriteOptions inherit\"</a> - последняя директива сообщает серверу о продолжении.</p>\r\n<h2>&nbsp;</h2>','all about contest','dummy post title'),(4,1,'2015-02-17 22:24:24','<p>vbfhvfkjdsvbsvsvf</p>','123','tratata');
+insert  into `buh_posts`(`id_post`,`id_user`,`date_time`,`content`,`prev_content`,`title`) values (1,1,'2015-02-11 08:39:47','this is first dummy post','this is first dummy post',NULL),(2,1,'2015-02-11 14:21:56','<p>Правила преобразования ссылок:</p>\r\n<p>Если в подкаталогах в .htaccess нет ни одной директивы модуля mod_rewrite, то все правила преобразования наследуются из родительского каталога.</p>\r\n<p>При наличии в файле .htaccess каких либо директив модуля mod_rewrite не наследуется ничего, а состояние по умолчанию выставляется таким же, как в главном конфигурационном файле веб-сервера (по умолчанию \"off\"). Поэтому, если нужны правила преобразования для конкретного каталога, то нужно еще раз вставить директиву \"RewriteEngine on\" в .htaccess для конкретного каталога.</p>\r\n<p>При наследовании правил из верхних каталогов и добавлении к ним новых свойственных только данному каталогу - необходимо выставить в начале следущее: \"RewriteEngine on\" и <a href=\"http://htaccess.net.ru/doc/mod_rewrite/RewriteOptions.php\">\"RewriteOptions inherit\"</a> - последняя директива сообщает серверу о продолжении.</p>\r\n<h2>&nbsp;</h2>','all about contest','dummy post title'),(3,1,'2015-02-11 14:22:14','<p>Правила преобразования ссылок:</p>\r\n<p>Если в подкаталогах в .htaccess нет ни одной директивы модуля mod_rewrite, то все правила преобразования наследуются из родительского каталога.</p>\r\n<p>При наличии в файле .htaccess каких либо директив модуля mod_rewrite не наследуется ничего, а состояние по умолчанию выставляется таким же, как в главном конфигурационном файле веб-сервера (по умолчанию \"off\"). Поэтому, если нужны правила преобразования для конкретного каталога, то нужно еще раз вставить директиву \"RewriteEngine on\" в .htaccess для конкретного каталога.</p>\r\n<p>При наследовании правил из верхних каталогов и добавлении к ним новых свойственных только данному каталогу - необходимо выставить в начале следущее: \"RewriteEngine on\" и <a href=\"http://htaccess.net.ru/doc/mod_rewrite/RewriteOptions.php\">\"RewriteOptions inherit\"</a> - последняя директива сообщает серверу о продолжении.</p>\r\n<h2>&nbsp;</h2>','all about contest','dummy post title'),(4,1,'2015-02-17 22:24:24','<p>vbfhvfkjdsvbsvsvf</p>','123','tratata'),(5,1,'2015-02-25 14:54:10','<p><strong>Приключенческая гонка &laquo;Активная зона&raquo;</strong></p>\r\n<p>Здесь причудливо смешались комфортные дороги и белорусские горы, традиционные этапы (велосипед, трекинг, лыжи) и принципиально новые (окунание в прорубь, ориентирование \"по глобусу\"), точные карты и запутанные задания квеста. Формат рогейна позволит каждому выбрать наиболее подходящие дисциплины и подстроить длину дистанции под себя. И только Про &laquo;отгребет&raquo; по полной... А на финише победителей будут ждать призы от ведущего туристического магазина &laquo;Активная зона&raquo;.</p>\r\n<p>Краткая информация о гонке:</p>\r\n<ul>\r\n<li>Дата: 31 января-1 февраля 2015</li>\r\n<li>Место: Дзержинский и Минский районы, БЛ - Волчковичское вдхр (Птичь).</li>\r\n<li>Формат: рогейн</li>\r\n<li>Длительность: Про-класс 24 ч, Вело/Трек 16 ч, Любительский &ndash; 7 ч, Зрители &ndash; прохождение квеста 1-2 ч.</li>\r\n<li>Сайт гонки: <a href=\"http://promwadtour.com\">http://promwadtour.com</a></li>\r\n<li>Обсуждение: <a href=\"http://forum.poehali.net/index.php?board=21;action=display;threadid=78819;start=0\">http://forum.poehali.net/index.php?board=21;action=display;threadid=78819;start=0</a><img src=\"http://www.obelarus.net/buls/2015/active-zone.jpg\" alt=\"it starts\" width=\"600\" height=\"450\" /></li>\r\n</ul>','Стартует Ориент лига 2015!','Стартует Ориент лига 2015!'),(6,1,'2015-02-25 14:54:52','<p><strong>Приключенческая гонка &laquo;Активная зона&raquo;</strong></p>\r\n<p>Здесь причудливо смешались комфортные дороги и белорусские горы, традиционные этапы (велосипед, трекинг, лыжи) и принципиально новые (окунание в прорубь, ориентирование \"по глобусу\"), точные карты и запутанные задания квеста. Формат рогейна позволит каждому выбрать наиболее подходящие дисциплины и подстроить длину дистанции под себя. И только Про &laquo;отгребет&raquo; по полной... А на финише победителей будут ждать призы от ведущего туристического магазина &laquo;Активная зона&raquo;.</p>\r\n<p>Краткая информация о гонке:</p>\r\n<ul>\r\n<li>Дата: 31 января-1 февраля 2015</li>\r\n<li>Место: Дзержинский и Минский районы, БЛ - Волчковичское вдхр (Птичь).</li>\r\n<li>Формат: рогейн</li>\r\n<li>Длительность: Про-класс 24 ч, Вело/Трек 16 ч, Любительский &ndash; 7 ч, Зрители &ndash; прохождение квеста 1-2 ч.</li>\r\n<li>Сайт гонки: <a href=\"http://promwadtour.com\">http://promwadtour.com</a></li>\r\n<li>Обсуждение: <a href=\"http://forum.poehali.net/index.php?board=21;action=display;threadid=78819;start=0\">http://forum.poehali.net/index.php?board=21;action=display;threadid=78819;start=0</a><br><img src=\"http://www.obelarus.net/buls/2015/active-zone.jpg\" alt=\"it starts\" width=\"600\" height=\"450\" /></li>\r\n</ul>','Стартует Ориент лига 2015!','Стартует Ориент лига 2015!');
 
 /*Table structure for table `buh_qualification` */
 
@@ -204,14 +206,14 @@ CREATE TABLE `buh_runners` (
   `id_runner` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
-  `birth_year` year(4) NOT NULL,
+  `birth_year` int(4) NOT NULL,
   `gender` enum('male','female') NOT NULL,
   PRIMARY KEY (`id_runner`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buh_runners` */
 
-insert  into `buh_runners`(`id_runner`,`name`,`surname`,`birth_year`,`gender`) values (1,'jauhien','Karaliou',1989,'male'),(2,'sascha','karaliou',1992,'male');
+insert  into `buh_runners`(`id_runner`,`name`,`surname`,`birth_year`,`gender`) values (1,'jauhien','Karaliou',1989,'male'),(2,'sascha','karaliou',1992,'male'),(3,'Valery','Marchuk',1990,'male'),(4,'Иван','Глушко',1900,'male'),(5,'Encode','Marchuk',1906,'male'),(6,'Decode','Marchuk',1900,'male'),(7,'Valery','Глушко',1900,'male'),(8,'jauhien2','Каралёў',1900,'male'),(9,'Valery','Каралёў',1900,'male');
 
 /*Table structure for table `buh_user_status` */
 

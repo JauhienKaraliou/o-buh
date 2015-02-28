@@ -2,12 +2,6 @@
 
 class AdminController extends Controller
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * shows log-in form
      */
@@ -18,6 +12,7 @@ class AdminController extends Controller
         } else {
             $this->view->render('login');
         }
+        $this->clearMessages();
     }
 
     /**

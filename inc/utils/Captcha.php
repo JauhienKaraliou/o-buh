@@ -2,6 +2,9 @@
 
 class Captcha {
 
+    /**
+     * @return string
+     */
     public static function generateCaptcha()
     {
         $answ = rand(1, 20);

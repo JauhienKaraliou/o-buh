@@ -2,12 +2,6 @@
 
 class GuestbookController extends Controller
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @param int $pageNum
      */

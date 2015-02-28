@@ -140,6 +140,10 @@ WHERE `id_contest`=:id_contest');
         return true;
     }
 
+    /**
+     * returns the list of competitions to be held
+     * @return array
+     */
     public static function getFutureCompetitionsList()
     {
         $sth = DB::getInstance()->prepare('SELECT `id_contest`,`name`,`date_begin`,`date_end` FROM `buh_contests`
@@ -161,6 +165,10 @@ WHERE `id_contest`=:id_contest');
         return $sth->fetch();
     }
 
+    /**
+     * returns the id of a competition to be held the latest
+     * @return string
+     */
     public static function getNewestCompetition()
     {
         $sth=DB::getInstance()->prepare('SELECT `id_contest` FROM `buh_contests` WHERE `registration_open`=:reg_open

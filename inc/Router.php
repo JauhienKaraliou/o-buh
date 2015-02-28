@@ -2,6 +2,9 @@
 
 class Router
 {
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         $url = (isset($_GET['url'])) ? trim($_GET['url']) : DEFAULT_CONTROLLER;
